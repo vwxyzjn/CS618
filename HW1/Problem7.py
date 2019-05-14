@@ -10,7 +10,6 @@ import itertools
 num_item = 4
 num_agent = 4
 
-np.zeros((4,4))
 
 v = [
     {
@@ -49,7 +48,7 @@ v = [
     },
 ]
 
-all_allocations = list(itertools.product([*list(itertools.product([0, 1], repeat=4))], repeat=4))
+all_allocations = list(itertools.product([*list(itertools.product([0, 1], repeat=num_item))], repeat=num_item))
 
 max_welfare = 0
 max_alloc = None
