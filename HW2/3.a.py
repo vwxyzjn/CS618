@@ -1,16 +1,17 @@
 import numpy as np
 import itertools
-
 s = np.array([
-    [0,1,2],
-    [1,2,0],
-    [0,1,2]        
+    [2,3,0,1],
+    [3,2,1,0],
+    [2,0,1,3],
+    [3,1,0,2]
 ])
 
 p = np.array([
-    [0,1,2],
-    [0,1,2],
-    [0,1,2]        
+    [2,3,1,0],
+    [3,2,0,1],
+    [2,0,1,3],
+    [3,1,0,2]
 ])
 
 n = len(s)
@@ -30,6 +31,8 @@ for perm in perms:
     c_ij_sum = 0
     for item in indices:
         c_ij_sum += c[item]
+    if c_ij_sum == matchings[0]:
+        print(f"tie between {matchings} and {(c_ij_sum, indices)}")
     if c_ij_sum <= matchings[0]:
         matchings = (c_ij_sum, indices)
 
