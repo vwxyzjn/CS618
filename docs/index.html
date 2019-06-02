@@ -13124,11 +13124,22 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Variables">Variables<a class="anchor-link" href="#Variables">&#182;</a></h2><ul>
+<h2 id="Outline-of-the-algorithm">Outline of the algorithm<a class="anchor-link" href="#Outline-of-the-algorithm">&#182;</a></h2><ol>
+<li>Use linear programming to find a welfare-maximizing allocation $x$.</li>
+<li>Use linear programming to find a price assignment $p$ that maximizes the minimum utility of each agent.</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="1.-Use-linear-programming-to-find-a-welfare-maximizing-allocation-$x$.">1. Use linear programming to find a welfare-maximizing allocation $x$.<a class="anchor-link" href="#1.-Use-linear-programming-to-find-a-welfare-maximizing-allocation-$x$.">&#182;</a></h2><p>Here is the following variables:</p>
+<ul>
 <li>Let $x_{ij}$ be the binary variable that suggests assignment of agent $i$ for room $j$</li>
-<li>Let $p_{ij}$ be the continuous variable that suggests payment of agent $i$ for room $j$</li>
 </ul>
-<p>Above are the varaibles we want to know at the end of model optimization. Furthermore, we have constant variables $v_{ij}$ that stands for the private evaluation of room $j$ for agent $i$.</p>
+<p>Above are the varaibles we want to know at the end of model optimization. Furthermore, we have <strong>constants</strong> $v_{ij}$ that stands for the private evaluation of room $j$ for agent $i$.</p>
 
 </div>
 </div>
@@ -13145,7 +13156,6 @@ div#notebook {
 <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span>
 
 <span class="c1"># input parameters</span>
-<span class="n">num_agents</span> <span class="o">=</span> <span class="mi">3</span>
 <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
     <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
@@ -13153,20 +13163,13 @@ div#notebook {
 <span class="p">])</span>
 <span class="n">rent</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
-<span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">==</span> <span class="n">num_agents</span><span class="p">)</span>
-
 <span class="c1"># variables</span>
 <span class="n">n</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">p</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
         <span class="n">x</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">addVar</span><span class="p">(</span>
             <span class="n">vtype</span><span class="o">=</span><span class="n">GRB</span><span class="o">.</span><span class="n">BINARY</span><span class="p">,</span> 
-            <span class="n">name</span><span class="o">=</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
-        <span class="p">)</span>
-        <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">addVar</span><span class="p">(</span>
-            <span class="n">vtype</span><span class="o">=</span><span class="n">GRB</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span> 
             <span class="n">name</span><span class="o">=</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
         <span class="p">)</span>
 
@@ -13189,8 +13192,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Academic license - for non-commercial use only
-{&#39;[0, 0]&#39;: &lt;gurobi.Var [0, 0]&gt;, &#39;[0, 1]&#39;: &lt;gurobi.Var [0, 1]&gt;, &#39;[0, 2]&#39;: &lt;gurobi.Var [0, 2]&gt;, &#39;[1, 0]&#39;: &lt;gurobi.Var [1, 0]&gt;, &#39;[1, 1]&#39;: &lt;gurobi.Var [1, 1]&gt;, &#39;[1, 2]&#39;: &lt;gurobi.Var [1, 2]&gt;, &#39;[2, 0]&#39;: &lt;gurobi.Var [2, 0]&gt;, &#39;[2, 1]&#39;: &lt;gurobi.Var [2, 1]&gt;, &#39;[2, 2]&#39;: &lt;gurobi.Var [2, 2]&gt;}
+<pre>{&#39;[0, 0]&#39;: &lt;gurobi.Var [0, 0]&gt;, &#39;[0, 1]&#39;: &lt;gurobi.Var [0, 1]&gt;, &#39;[0, 2]&#39;: &lt;gurobi.Var [0, 2]&gt;, &#39;[1, 0]&#39;: &lt;gurobi.Var [1, 0]&gt;, &#39;[1, 1]&#39;: &lt;gurobi.Var [1, 1]&gt;, &#39;[1, 2]&#39;: &lt;gurobi.Var [1, 2]&gt;, &#39;[2, 0]&#39;: &lt;gurobi.Var [2, 0]&gt;, &#39;[2, 1]&#39;: &lt;gurobi.Var [2, 1]&gt;, &#39;[2, 2]&#39;: &lt;gurobi.Var [2, 2]&gt;}
 </pre>
 </div>
 </div>
@@ -13202,7 +13204,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Objective">Objective<a class="anchor-link" href="#Objective">&#182;</a></h2><p>We want to maximize the social welfare</p>
+<h3 id="Objective">Objective<a class="anchor-link" href="#Objective">&#182;</a></h3><p>We want to maximize the social welfare</p>
 $$ \max \sum x_{ij} v_{ij}$$
 </div>
 </div>
@@ -13212,8 +13214,7 @@ $$ \max \sum x_{ij} v_{ij}$$
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># objective</span>
-<span class="n">welfare</span> <span class="o">=</span> <span class="p">[]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">welfare</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
         <span class="n">welfare</span> <span class="o">+=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="o">*</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]]</span>
@@ -13231,10 +13232,8 @@ $$ \max \sum x_{ij} v_{ij}$$
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Constraints">Constraints<a class="anchor-link" href="#Constraints">&#182;</a></h2><ul>
-<li>$\sum x_ij = 1, \forall i$ (Each agent can be assigned exactly one room)</li>
-<li>$\sum p_ij = rent, \forall i,j$ (Agent's payments sum up to rent)</li>
-<li>$(v_{ij} - p_{ij}) x_{ij} \geq (v_{ij'} - p_{ij'}) x_{ij}, j' \in N-\{j\}, j \in N, i \in N$ (Agent's utility for the selected room is at least as high as the utility for any other room)</li>
+<h3 id="Constraints">Constraints<a class="anchor-link" href="#Constraints">&#182;</a></h3><ul>
+<li>$\sum x_{ij} = 1, \forall i$ (Each agent can be assigned exactly one room)</li>
 </ul>
 
 </div>
@@ -13245,34 +13244,11 @@ $$ \max \sum x_{ij} v_{ij}$$
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># constraints</span>
-<span class="n">c</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="c1"># c1: payment must add up to rent</span>
-<span class="n">c</span><span class="p">[</span><span class="s2">&quot;rent&quot;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
-    <span class="n">quicksum</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="n">rent</span><span class="p">,</span> 
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;rent&quot;</span>
-<span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
-    <span class="c1"># c2: each agent must be assigned exactly one room</span>
-    <span class="n">c</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mi">1</span><span class="p">])]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
-        <span class="n">quicksum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> 
-        <span class="n">name</span><span class="o">=</span><span class="nb">str</span><span class="p">([</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+    <span class="c1"># c1: each agent must be assigned exactly one room</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
+        <span class="n">quicksum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
-        <span class="c1"># c3: all payments are nonnegative</span>
-        <span class="n">c</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">])]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
-            <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> 
-            <span class="n">name</span><span class="o">=</span><span class="nb">str</span><span class="p">([</span><span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-        <span class="p">)</span>
-
-        <span class="c1"># c4: non-envy</span>
-        <span class="n">non_j</span> <span class="o">=</span> <span class="p">[</span><span class="n">jp</span> <span class="k">for</span> <span class="n">jp</span> <span class="ow">in</span> <span class="n">n</span> <span class="k">if</span> <span class="n">jp</span> <span class="o">!=</span><span class="n">j</span><span class="p">]</span> <span class="c1"># every other room</span>
-        <span class="k">for</span> <span class="n">jp</span> <span class="ow">in</span> <span class="n">non_j</span><span class="p">:</span>
-            <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
-                <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])])</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">jp</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">jp</span><span class="p">])])</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])],</span> 
-                <span class="n">name</span><span class="o">=</span><span class="nb">str</span><span class="p">([</span><span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="s1">&#39;u_2&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">jp</span><span class="p">])</span>
-            <span class="p">)</span>
 <span class="n">model</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
 <span class="n">model</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">()</span>
@@ -13293,30 +13269,19 @@ $$ \max \sum x_{ij} v_{ij}$$
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Optimize a model with 13 rows, 18 columns and 27 nonzeros
-Model has 18 quadratic constraints
-Variable types: 9 continuous, 9 integer (9 binary)
+<pre>Optimize a model with 3 rows, 9 columns and 9 nonzeros
+Variable types: 0 continuous, 9 integer (9 binary)
 Coefficient statistics:
   Matrix range     [1e+00, 1e+00]
-  QMatrix range    [1e+00, 1e+00]
-  QLMatrix range   [3e+00, 3e+00]
   Objective range  [3e+00, 3e+00]
   Bounds range     [1e+00, 1e+00]
-  RHS range        [1e+00, 3e+00]
-Presolve removed 9 rows and 0 columns
-Presolve time: 0.01s
-Presolved: 67 rows, 45 columns, 165 nonzeros
-Variable types: 36 continuous, 9 integer (9 binary)
+  RHS range        [1e+00, 1e+00]
+Presolve removed 3 rows and 9 columns
+Presolve time: 0.00s
+Presolve: All rows and columns removed
 
-Root relaxation: objective -9.000000e+00, 0 iterations, 0.00 seconds
-
-    Nodes    |    Current Node    |     Objective Bounds      |     Work
- Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
-
-*    0     0               0       9.0000000    9.00000  0.00%     -    0s
-
-Explored 1 nodes (0 simplex iterations) in 0.06 seconds
-Thread count was 8 (of 8 available processors)
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Thread count was 1 (of 8 available processors)
 
 Solution count 1: 9 
 
@@ -13335,7 +13300,7 @@ Best objective 9.000000000000e+00, best bound 9.000000000000e+00, gap 0.0000%
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now let's see the allocation</p>
+<h2 id="Extracting-the-allocation">Extracting the allocation<a class="anchor-link" href="#Extracting-the-allocation">&#182;</a></h2><p>The following is the allocation:</p>
 
 </div>
 </div>
@@ -13345,7 +13310,117 @@ Best objective 9.000000000000e+00, best bound 9.000000000000e+00, gap 0.0000%
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[4]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;[0, 0]&#39;: &lt;gurobi.Var [0, 0] (value 1.0)&gt;,
+ &#39;[0, 1]&#39;: &lt;gurobi.Var [0, 1] (value 0.0)&gt;,
+ &#39;[0, 2]&#39;: &lt;gurobi.Var [0, 2] (value 0.0)&gt;,
+ &#39;[1, 0]&#39;: &lt;gurobi.Var [1, 0] (value 0.0)&gt;,
+ &#39;[1, 1]&#39;: &lt;gurobi.Var [1, 1] (value 1.0)&gt;,
+ &#39;[1, 2]&#39;: &lt;gurobi.Var [1, 2] (value 0.0)&gt;,
+ &#39;[2, 0]&#39;: &lt;gurobi.Var [2, 0] (value 0.0)&gt;,
+ &#39;[2, 1]&#39;: &lt;gurobi.Var [2, 1] (value 0.0)&gt;,
+ &#39;[2, 2]&#39;: &lt;gurobi.Var [2, 2] (value 1.0)&gt;}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let constants $\sigma_i = j$ stands for the room allocation of agent $i$ is $j$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sigma</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span><span class="o">.</span><span class="n">X</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">j</span>
+<span class="n">sigma</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[5]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{0: 0, 1: 1, 2: 2}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="(Digression)-Let's-just-find-one-envy-free-solution-that-doesn't-maximize-the-minimum-of-agents'-utility">(Digression) Let's just find one envy-free solution that doesn't maximize the minimum of agents' utility<a class="anchor-link" href="#(Digression)-Let's-just-find-one-envy-free-solution-that-doesn't-maximize-the-minimum-of-agents'-utility">&#182;</a></h3><p>Here is the following variables:</p>
+<ul>
+<li>Let $p_{ij}$ be the continuous variable that suggests payment of agent $i$ for room $j$</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># variables</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span>
+<span class="n">p</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+        <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">addVar</span><span class="p">(</span>
+            <span class="n">vtype</span><span class="o">=</span><span class="n">GRB</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span> 
+            <span class="n">name</span><span class="o">=</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+        <span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13362,7 +13437,7 @@ Best objective 9.000000000000e+00, best bound 9.000000000000e+00, gap 0.0000%
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;[0, 0]&#39;: &lt;gurobi.Var [0, 0] (value 1.0)&gt;, &#39;[0, 1]&#39;: &lt;gurobi.Var [0, 1] (value -0.0)&gt;, &#39;[0, 2]&#39;: &lt;gurobi.Var [0, 2] (value -0.0)&gt;, &#39;[1, 0]&#39;: &lt;gurobi.Var [1, 0] (value -0.0)&gt;, &#39;[1, 1]&#39;: &lt;gurobi.Var [1, 1] (value 1.0)&gt;, &#39;[1, 2]&#39;: &lt;gurobi.Var [1, 2] (value -0.0)&gt;, &#39;[2, 0]&#39;: &lt;gurobi.Var [2, 0] (value -0.0)&gt;, &#39;[2, 1]&#39;: &lt;gurobi.Var [2, 1] (value -0.0)&gt;, &#39;[2, 2]&#39;: &lt;gurobi.Var [2, 2] (value 1.0)&gt;}
+<pre>{&#39;[0, 0]&#39;: &lt;gurobi.Var [0, 0]&gt;, &#39;[0, 1]&#39;: &lt;gurobi.Var [0, 1]&gt;, &#39;[0, 2]&#39;: &lt;gurobi.Var [0, 2]&gt;, &#39;[1, 0]&#39;: &lt;gurobi.Var [1, 0]&gt;, &#39;[1, 1]&#39;: &lt;gurobi.Var [1, 1]&gt;, &#39;[1, 2]&#39;: &lt;gurobi.Var [1, 2]&gt;, &#39;[2, 0]&#39;: &lt;gurobi.Var [2, 0]&gt;, &#39;[2, 1]&#39;: &lt;gurobi.Var [2, 1]&gt;, &#39;[2, 2]&#39;: &lt;gurobi.Var [2, 2]&gt;}
 </pre>
 </div>
 </div>
@@ -13374,17 +13449,65 @@ Best objective 9.000000000000e+00, best bound 9.000000000000e+00, gap 0.0000%
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>And the payment</p>
+<h3 id="Objective">Objective<a class="anchor-link" href="#Objective">&#182;</a></h3><p>We create a dummy objective to get a feasible solution</p>
+$$\max \sum p_{ij}$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dummy_objective</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">]</span>
+<span class="n">model</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span>
+    <span class="n">quicksum</span><span class="p">(</span><span class="n">dummy_objective</span><span class="p">),</span>
+    <span class="n">GRB</span><span class="o">.</span><span class="n">MAXIMIZE</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Constraints">Constraints<a class="anchor-link" href="#Constraints">&#182;</a></h3><ul>
+<li>$\sum p_{ij} = rent, \forall i,j$ (Agent's payments sum up to rent)</li>
+<li>$p_{ij} \geq 0, \forall i,j$ (Non-negative payments)</li>
+<li>$v_{i\sigma_i} - p_{i\sigma_i} \geq v_{ij} - p_{ij}, i \in N, j \in N$ (Agent's utility for the selected room is at least as high as the utility for any other room)</li>
+</ul>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="c1"># c1: payment must add up to rent</span>
+<span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
+    <span class="n">quicksum</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="n">rent</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+        <span class="c1"># c2: all payments are nonnegative</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
+            <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+        <span class="p">)</span>
+        <span class="c1"># c3: non-envy</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">]])])</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])])</span>
+        <span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*****Thus the objective value is &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">ObjVal</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -13401,7 +13524,425 @@ Best objective 9.000000000000e+00, best bound 9.000000000000e+00, gap 0.0000%
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;[0, 0]&#39;: &lt;gurobi.Var [0, 0] (value 0.0)&gt;, &#39;[0, 1]&#39;: &lt;gurobi.Var [0, 1] (value 3.0)&gt;, &#39;[0, 2]&#39;: &lt;gurobi.Var [0, 2] (value 0.0)&gt;, &#39;[1, 0]&#39;: &lt;gurobi.Var [1, 0] (value 0.0)&gt;, &#39;[1, 1]&#39;: &lt;gurobi.Var [1, 1] (value 0.0)&gt;, &#39;[1, 2]&#39;: &lt;gurobi.Var [1, 2] (value 0.0)&gt;, &#39;[2, 0]&#39;: &lt;gurobi.Var [2, 0] (value 0.0)&gt;, &#39;[2, 1]&#39;: &lt;gurobi.Var [2, 1] (value 0.0)&gt;, &#39;[2, 2]&#39;: &lt;gurobi.Var [2, 2] (value 0.0)&gt;}
+<pre>Optimize a model with 19 rows, 9 columns and 30 nonzeros
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [3e+00, 3e+00]
+Presolve removed 12 rows and 0 columns
+Presolve time: 0.00s
+Presolved: 7 rows, 9 columns, 21 nonzeros
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+       0    3.0000000e+00   4.206800e+01   0.000000e+00      0s
+       7    3.0000000e+00   0.000000e+00   0.000000e+00      0s
+
+Solved in 7 iterations and 0.01 seconds
+Optimal objective  3.000000000e+00
+
+*****Thus the objective value is 3.0
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[9]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;[0, 0]&#39;: &lt;gurobi.Var [0, 0] (value 0.0)&gt;,
+ &#39;[0, 1]&#39;: &lt;gurobi.Var [0, 1] (value 0.0)&gt;,
+ &#39;[0, 2]&#39;: &lt;gurobi.Var [0, 2] (value 0.0)&gt;,
+ &#39;[1, 0]&#39;: &lt;gurobi.Var [1, 0] (value 0.0)&gt;,
+ &#39;[1, 1]&#39;: &lt;gurobi.Var [1, 1] (value 0.0)&gt;,
+ &#39;[1, 2]&#39;: &lt;gurobi.Var [1, 2] (value 0.0)&gt;,
+ &#39;[2, 0]&#39;: &lt;gurobi.Var [2, 0] (value 0.0)&gt;,
+ &#39;[2, 1]&#39;: &lt;gurobi.Var [2, 1] (value 0.0)&gt;,
+ &#39;[2, 2]&#39;: &lt;gurobi.Var [2, 2] (value 3.0)&gt;}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="2.-Use-linear-programming-to-find-a-price-assignment-$p$-that-maximizes-the-minimum-utility-of-each-agent.">2. Use linear programming to find a price assignment $p$ that maximizes the minimum utility of each agent.<a class="anchor-link" href="#2.-Use-linear-programming-to-find-a-price-assignment-$p$-that-maximizes-the-minimum-utility-of-each-agent.">&#182;</a></h3><p>Here is the following variables:</p>
+<ul>
+<li>Let $p_{ij}$ be the continuous variable that suggests payment of agent $i$ for room $j$</li>
+<li>Let $R$ be the continuous variable that stands for the minimum of agents' utilities</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># variables</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">addVar</span><span class="p">(</span>
+    <span class="n">vtype</span><span class="o">=</span><span class="n">GRB</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span> 
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;R&quot;</span>
+<span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+        <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">addVar</span><span class="p">(</span>
+            <span class="n">vtype</span><span class="o">=</span><span class="n">GRB</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span> 
+            <span class="n">name</span><span class="o">=</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+        <span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Objective">Objective<a class="anchor-link" href="#Objective">&#182;</a></h3><p>We want to maximize the minimum of agents' utility</p>
+$$\max R$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span>
+    <span class="n">R</span><span class="p">,</span>
+    <span class="n">GRB</span><span class="o">.</span><span class="n">MAXIMIZE</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Constraints">Constraints<a class="anchor-link" href="#Constraints">&#182;</a></h3><ul>
+<li>$\sum p_{ij} = rent, \forall i,j$ (Agent's payments sum up to rent)</li>
+<li>$R \leq v_{i\sigma_i} - p_{i\sigma_i}, i \in N$ (R is smaller each agent's utility)</li>
+<li>$p_{ij} = 0, j \in N - \{\sigma_i\}$ (If agent $i$ is assigned to room $j$, she cannot pay for any other room)</li>
+<li>$p_{ij} \geq 0, \forall i,j$ (Non-negative payments)</li>
+<li>$v_{i\sigma_i} - p_{i\sigma_i} \geq v_{ij} - p_{ij}, i \in N, j \in N$ (Agent's utility for the selected room is at least as high as the utility for any other room)</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># c1: payment must add up to rent</span>
+<span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
+    <span class="n">quicksum</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="n">rent</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+    <span class="c1"># c2: R is smaller each agent&#39;s utility</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
+        <span class="n">R</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">]])])</span>
+    <span class="p">)</span>
+    <span class="c1"># c3: (If agent $i$ is assigned to room $j$, she cannot pay for any other room)</span>
+    <span class="n">room_not_assigned</span> <span class="o">=</span> <span class="p">[</span><span class="n">j</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span> <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span><span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">room_not_assigned</span><span class="p">:</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
+            <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+        <span class="c1"># c4: all payments are nonnegative</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
+            <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+        <span class="p">)</span>
+        <span class="c1"># c5: non-envy</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">]])])</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])])</span>
+        <span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*****Thus the objective value is &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">ObjVal</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Optimize a model with 28 rows, 10 columns and 42 nonzeros
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [3e+00, 3e+00]
+Presolve removed 24 rows and 6 columns
+Presolve time: 0.01s
+Presolved: 4 rows, 4 columns, 9 nonzeros
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+       0    3.0000000e+00   3.000000e+00   0.000000e+00      0s
+       2    2.0000000e+00   0.000000e+00   0.000000e+00      0s
+
+Solved in 2 iterations and 0.01 seconds
+Optimal objective  2.000000000e+00
+
+*****Thus the objective value is 2.0
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[13]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;[0, 0]&#39;: &lt;gurobi.Var [0, 0] (value 1.0)&gt;,
+ &#39;[0, 1]&#39;: &lt;gurobi.Var [0, 1] (value 0.0)&gt;,
+ &#39;[0, 2]&#39;: &lt;gurobi.Var [0, 2] (value 0.0)&gt;,
+ &#39;[1, 0]&#39;: &lt;gurobi.Var [1, 0] (value 0.0)&gt;,
+ &#39;[1, 1]&#39;: &lt;gurobi.Var [1, 1] (value 1.0)&gt;,
+ &#39;[1, 2]&#39;: &lt;gurobi.Var [1, 2] (value 0.0)&gt;,
+ &#39;[2, 0]&#39;: &lt;gurobi.Var [2, 0] (value 0.0)&gt;,
+ &#39;[2, 1]&#39;: &lt;gurobi.Var [2, 1] (value 0.0)&gt;,
+ &#39;[2, 2]&#39;: &lt;gurobi.Var [2, 2] (value 1.0)&gt;}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Complete-standalone-script">Complete standalone script<a class="anchor-link" href="#Complete-standalone-script">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">gurobipy</span> <span class="k">import</span> <span class="n">Model</span><span class="p">,</span> <span class="n">GRB</span><span class="p">,</span> <span class="n">quicksum</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">setParam</span><span class="p">(</span><span class="s1">&#39;OutputFlag&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># ===========================================================</span>
+<span class="c1"># Get the allocation first</span>
+<span class="c1"># ===========================================================</span>
+
+<span class="c1"># **Input parameters**</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>    
+<span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The agents&#39; values are </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+<span class="n">rent</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="c1"># **Variables**</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+        <span class="n">x</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">addVar</span><span class="p">(</span>
+            <span class="n">vtype</span><span class="o">=</span><span class="n">GRB</span><span class="o">.</span><span class="n">BINARY</span><span class="p">,</span> 
+            <span class="n">name</span><span class="o">=</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+        <span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+<span class="c1"># **Objective**</span>
+<span class="n">welfare</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+        <span class="n">welfare</span> <span class="o">+=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="o">*</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]]</span>
+<span class="n">model</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span>
+    <span class="n">quicksum</span><span class="p">(</span><span class="n">welfare</span><span class="p">),</span>
+    <span class="n">GRB</span><span class="o">.</span><span class="n">MAXIMIZE</span>
+<span class="p">)</span>
+
+<span class="c1"># **Constraints**</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+    <span class="c1"># c1: each agent must be assigned exactly one room</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
+        <span class="n">quicksum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*****The maximum social welfare is &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">ObjVal</span><span class="p">))</span>
+
+<span class="c1"># Room assignment</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span><span class="o">.</span><span class="n">X</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">j</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;agent </span><span class="si">{i}</span><span class="s2"> is assigned room </span><span class="si">{j}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+<span class="c1"># ===========================================================</span>
+<span class="c1"># Get the pricing</span>
+<span class="c1"># ===========================================================</span>
+
+<span class="c1"># **Variables**</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">setParam</span><span class="p">(</span><span class="s1">&#39;OutputFlag&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">addVar</span><span class="p">(</span>
+    <span class="n">vtype</span><span class="o">=</span><span class="n">GRB</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span> 
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;R&quot;</span>
+<span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+        <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">addVar</span><span class="p">(</span>
+            <span class="n">vtype</span><span class="o">=</span><span class="n">GRB</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span> 
+            <span class="n">name</span><span class="o">=</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+        <span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+<span class="c1"># **Objective**</span>
+<span class="n">model</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span>
+    <span class="n">R</span><span class="p">,</span>
+    <span class="n">GRB</span><span class="o">.</span><span class="n">MAXIMIZE</span>
+<span class="p">)</span>
+
+<span class="c1"># **Constraints**</span>
+<span class="c1"># c1: payment must add up to rent</span>
+<span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
+    <span class="n">quicksum</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="n">rent</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+    <span class="c1"># c2: R is smaller each agent&#39;s utility</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
+        <span class="n">R</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">]])])</span>
+    <span class="p">)</span>
+    <span class="c1"># c3: (If agent $i$ is assigned to room $j$, she cannot pay for any other room)</span>
+    <span class="n">room_not_assigned</span> <span class="o">=</span> <span class="p">[</span><span class="n">j</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span> <span class="k">if</span> <span class="n">j</span> <span class="o">!=</span><span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">room_not_assigned</span><span class="p">:</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
+            <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+        <span class="c1"># c4: all payments are nonnegative</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
+            <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+        <span class="p">)</span>
+        <span class="c1"># c5: non-envy</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">]])])</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])])</span>
+        <span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;*****The minimum of agents&#39; utility is &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">ObjVal</span><span class="p">))</span>
+
+<span class="c1"># price assignment</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span><span class="o">.</span><span class="n">X</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;agent </span><span class="si">{i}</span><span class="s2"> will pay {p[str([i, j])].X} for room </span><span class="si">{j}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The agents&#39; values are 
+ [[3 0 0]
+ [0 3 0]
+ [0 0 3]]
+*****The maximum social welfare is 9.0
+agent 0 is assigned room 0
+agent 1 is assigned room 1
+agent 2 is assigned room 2
+*****The minimum of agents&#39; utility is 2.0
+agent 0 will pay 1.0 for room 0
+agent 1 will pay 1.0 for room 1
+agent 2 will pay 1.0 for room 2
 </pre>
 </div>
 </div>
