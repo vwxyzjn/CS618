@@ -13116,7 +13116,9 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Rent-Division">Rent Division<a class="anchor-link" href="#Rent-Division">&#182;</a></h1><p>In the paper <a href="http://procaccia.info/papers/rent.pdf">Which Is the Fairest (Rent Division) of Them All?</a>, it was suggested that the popular envy-free model is insufficient. Below we presnet an initial implmentation of the envy-free model.</p>
+<h1 id="Fair-Rent-Division">Fair Rent Division<a class="anchor-link" href="#Fair-Rent-Division">&#182;</a></h1><p>Ernie Pisch, Costa Huang</p>
+<p><a href="https://github.com/vwxyzjn/CS618">https://github.com/vwxyzjn/CS618</a></p>
+<p>In the paper <a href="http://procaccia.info/papers/rent.pdf">Which Is the Fairest (Rent Division) of Them All?</a>, it was suggested that the popular envy-free model is insufficient. Below we presnet an initial implmentation of the envy-free model.</p>
 
 </div>
 </div>
@@ -13146,7 +13148,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">gurobipy</span> <span class="k">import</span> <span class="n">Model</span><span class="p">,</span> <span class="n">GRB</span><span class="p">,</span> <span class="n">quicksum</span>
@@ -13192,7 +13194,8 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;[0, 0]&#39;: &lt;gurobi.Var [0, 0]&gt;, &#39;[0, 1]&#39;: &lt;gurobi.Var [0, 1]&gt;, &#39;[0, 2]&#39;: &lt;gurobi.Var [0, 2]&gt;, &#39;[1, 0]&#39;: &lt;gurobi.Var [1, 0]&gt;, &#39;[1, 1]&#39;: &lt;gurobi.Var [1, 1]&gt;, &#39;[1, 2]&#39;: &lt;gurobi.Var [1, 2]&gt;, &#39;[2, 0]&#39;: &lt;gurobi.Var [2, 0]&gt;, &#39;[2, 1]&#39;: &lt;gurobi.Var [2, 1]&gt;, &#39;[2, 2]&#39;: &lt;gurobi.Var [2, 2]&gt;}
+<pre>Academic license - for non-commercial use only
+{&#39;[0, 0]&#39;: &lt;gurobi.Var [0, 0]&gt;, &#39;[0, 1]&#39;: &lt;gurobi.Var [0, 1]&gt;, &#39;[0, 2]&#39;: &lt;gurobi.Var [0, 2]&gt;, &#39;[1, 0]&#39;: &lt;gurobi.Var [1, 0]&gt;, &#39;[1, 1]&#39;: &lt;gurobi.Var [1, 1]&gt;, &#39;[1, 2]&#39;: &lt;gurobi.Var [1, 2]&gt;, &#39;[2, 0]&#39;: &lt;gurobi.Var [2, 0]&gt;, &#39;[2, 1]&#39;: &lt;gurobi.Var [2, 1]&gt;, &#39;[2, 2]&#39;: &lt;gurobi.Var [2, 2]&gt;}
 </pre>
 </div>
 </div>
@@ -13211,7 +13214,7 @@ $$ \max \sum x_{ij} v_{ij}$$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">welfare</span> <span class="o">=</span> <span class="p">[]</span>
@@ -13242,7 +13245,7 @@ $$ \max \sum x_{ij} v_{ij}$$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
@@ -13287,7 +13290,7 @@ Presolved: 6 rows, 9 columns, 18 nonzeros
 Variable types: 0 continuous, 9 integer (9 binary)
 Found heuristic solution: objective 9.0000000
 
-Explored 0 nodes (0 simplex iterations) in 0.01 seconds
+Explored 0 nodes (0 simplex iterations) in 0.02 seconds
 Thread count was 8 (of 8 available processors)
 
 Solution count 1: 9 
@@ -13314,7 +13317,7 @@ Best objective 9.000000000000e+00, best bound 9.000000000000e+00, gap 0.0000%
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span>
@@ -13330,7 +13333,7 @@ Best objective 9.000000000000e+00, best bound 9.000000000000e+00, gap 0.0000%
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[43]:</div>
+    <div class="prompt output_prompt">Out[4]:</div>
 
 
 
@@ -13363,7 +13366,7 @@ Best objective 9.000000000000e+00, best bound 9.000000000000e+00, gap 0.0000%
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sigma</span> <span class="o">=</span> <span class="p">{}</span>
@@ -13384,7 +13387,7 @@ Best objective 9.000000000000e+00, best bound 9.000000000000e+00, gap 0.0000%
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[44]:</div>
+    <div class="prompt output_prompt">Out[5]:</div>
 
 
 
@@ -13412,7 +13415,7 @@ Best objective 9.000000000000e+00, best bound 9.000000000000e+00, gap 0.0000%
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># variables</span>
@@ -13426,29 +13429,9 @@ Best objective 9.000000000000e+00, best bound 9.000000000000e+00, gap 0.0000%
         <span class="p">)</span>
 
 <span class="n">model</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;[0, 0]&#39;: &lt;gurobi.Var [0, 0]&gt;, &#39;[0, 1]&#39;: &lt;gurobi.Var [0, 1]&gt;, &#39;[0, 2]&#39;: &lt;gurobi.Var [0, 2]&gt;, &#39;[1, 0]&#39;: &lt;gurobi.Var [1, 0]&gt;, &#39;[1, 1]&#39;: &lt;gurobi.Var [1, 1]&gt;, &#39;[1, 2]&#39;: &lt;gurobi.Var [1, 2]&gt;, &#39;[2, 0]&#39;: &lt;gurobi.Var [2, 0]&gt;, &#39;[2, 1]&#39;: &lt;gurobi.Var [2, 1]&gt;, &#39;[2, 2]&#39;: &lt;gurobi.Var [2, 2]&gt;}
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -13463,7 +13446,7 @@ $$\max \sum p_{ij}$$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">dummy_objective</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">]</span>
@@ -13484,7 +13467,7 @@ $$\max \sum p_{ij}$$
 <h3 id="Constraints">Constraints<a class="anchor-link" href="#Constraints">&#182;</a></h3><ul>
 <li>$\sum p_{ij} = rent, \forall i,j$ (Agent's payments sum up to rent)</li>
 <li>$p_{ij} \geq 0, \forall i,j$ (Non-negative payments)</li>
-<li>$v_{i\sigma_i} - p_{i\sigma_i} \geq v_{ij} - p_{ij}, i \in N, j \in N$ (Agent's utility for the selected room is at least as high as the utility for any other room)</li>
+<li>$v_{i\sigma_i} - p_{i\sigma_i} \geq v_{ij} - p_{j}, i \in N, j \in N$ (Agent's utility for the selected room is at least as high as the utility for any other room)</li>
 </ul>
 
 </div>
@@ -13492,7 +13475,7 @@ $$\max \sum p_{ij}$$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="p">{}</span>
@@ -13508,7 +13491,7 @@ $$\max \sum p_{ij}$$
         <span class="p">)</span>
         <span class="c1"># c3: non-envy</span>
         <span class="n">model</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span>
-            <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">]])])</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])])</span>
+            <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">]])])</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">quicksum</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="nb">str</span><span class="p">([</span><span class="n">l</span><span class="p">,</span> <span class="n">j</span><span class="p">])]</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">n</span><span class="p">))</span>
         <span class="p">)</span>
 
 <span class="n">model</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
@@ -13531,21 +13514,21 @@ $$\max \sum p_{ij}$$
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Optimize a model with 19 rows, 9 columns and 30 nonzeros
+<pre>Optimize a model with 19 rows, 9 columns and 48 nonzeros
 Coefficient statistics:
   Matrix range     [1e+00, 1e+00]
   Objective range  [1e+00, 1e+00]
   Bounds range     [0e+00, 0e+00]
   RHS range        [3e+00, 3e+00]
-Presolve removed 12 rows and 0 columns
+Presolve removed 12 rows and 3 columns
 Presolve time: 0.01s
-Presolved: 7 rows, 9 columns, 21 nonzeros
+Presolved: 7 rows, 6 columns, 24 nonzeros
 
 Iteration    Objective       Primal Inf.    Dual Inf.      Time
-       0    3.0000000e+00   4.206800e+01   0.000000e+00      0s
-       7    3.0000000e+00   0.000000e+00   0.000000e+00      0s
+       0    3.0000000e+00   3.006000e+01   0.000000e+00      0s
+       5    3.0000000e+00   0.000000e+00   0.000000e+00      0s
 
-Solved in 7 iterations and 0.01 seconds
+Solved in 5 iterations and 0.01 seconds
 Optimal objective  3.000000000e+00
 
 *****Thus the objective value is 3.0
@@ -13559,7 +13542,7 @@ Optimal objective  3.000000000e+00
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span>
@@ -13575,7 +13558,7 @@ Optimal objective  3.000000000e+00
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[48]:</div>
+    <div class="prompt output_prompt">Out[9]:</div>
 
 
 
@@ -13612,7 +13595,7 @@ Optimal objective  3.000000000e+00
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># variables</span>
@@ -13647,7 +13630,7 @@ $$\max R$$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span>
@@ -13677,7 +13660,7 @@ $$\max R$$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># c1: payment must add up to rent</span>
@@ -13732,14 +13715,14 @@ Coefficient statistics:
   Bounds range     [0e+00, 0e+00]
   RHS range        [3e+00, 3e+00]
 Presolve removed 21 rows and 6 columns
-Presolve time: 0.28s
+Presolve time: 0.01s
 Presolved: 7 rows, 7 columns, 18 nonzeros
 
 Iteration    Objective       Primal Inf.    Dual Inf.      Time
        0    3.0000000e+00   3.000000e+00   0.000000e+00      0s
        4    2.0000000e+00   0.000000e+00   0.000000e+00      0s
 
-Solved in 4 iterations and 0.28 seconds
+Solved in 4 iterations and 0.01 seconds
 Optimal objective  2.000000000e+00
 
 *****Thus the objective value is 2.0
@@ -13753,7 +13736,7 @@ Optimal objective  2.000000000e+00
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">p</span>
@@ -13769,7 +13752,7 @@ Optimal objective  2.000000000e+00
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[53]:</div>
+    <div class="prompt output_prompt">Out[13]:</div>
 
 
 
@@ -13801,7 +13784,7 @@ Optimal objective  2.000000000e+00
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">gurobipy</span> <span class="k">import</span> <span class="n">Model</span><span class="p">,</span> <span class="n">GRB</span><span class="p">,</span> <span class="n">quicksum</span>
